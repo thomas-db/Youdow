@@ -1,0 +1,89 @@
+﻿<phone:PhoneApplicationPage
+    x:Class="Youdow_ok.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="PortraitOrLandscape" Orientation="Portrait" shell:SystemTray.IsVisible="True" shell:SystemTray.BackgroundColor="Black" shell:SystemTray.ForegroundColor="White">
+
+    <!--LayoutRoot est la grille racine où tout le contenu de la page est placé-->
+    <Grid x:Name="MainGrid" Margin="0">
+
+        <StackPanel x:Name="TopBar" Margin="0" VerticalAlignment="Top">
+            <Grid x:Name="SearchGrid" Height="60" Margin="0" VerticalAlignment="Top" Background="White">
+                <TextBox x:Name="SearchInput" Margin="0,-5,70,-5" Text="Rechercher" BorderThickness="0" Padding="0,5,0,0" FontSize="24" HorizontalContentAlignment="Left" UseLayoutRounding="True" InputScope="Search" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" VerticalContentAlignment="Top" KeyDown="SearchInput_KeyDown" GotFocus="SearchInput_GotFocus"/>
+                <Grid x:Name="ButtonSearchGrid" Margin="0,3,3,3" Background="#FF072A4A" HorizontalAlignment="Right" Width="54" Height="54" Tap="ButtonSearchGrid_Tap">
+                    <TextBlock x:Name="GO" HorizontalAlignment="Center" Margin="0" TextWrapping="Wrap" Text="GO" VerticalAlignment="Center" FontSize="19" FontWeight="Bold"/>
+                </Grid>
+            </Grid>
+            <Grid x:Name="BanNbResultGrid" Height="64" Margin="0" VerticalAlignment="Top" Background="#FF1B1B1B">
+                <Grid x:Name="ResultGrid" HorizontalAlignment="Right" Margin="0" Tap="ResultGrid_Tap">
+                    <TextBlock x:Name="TextNbResult" HorizontalAlignment="Right" Margin="0,11,68,10" Text="Nombre de résultat à afficher" Foreground="LightGray" Width="141" VerticalAlignment="Center" FontSize="16" TextWrapping="Wrap" TextAlignment="Right"/>
+                    <Grid x:Name="ResultBoxGrid" HorizontalAlignment="Right" Height="54" Margin="0,5,3,5" Width="54" Background="#FF323232" VerticalAlignment="Center">
+                        <TextBlock x:Name="NbResult" HorizontalAlignment="Center" Margin="0" TextWrapping="Wrap" Text="5" VerticalAlignment="Center"/>
+                    </Grid>
+                </Grid>
+                <Grid x:Name="PathGrid" Margin="0,0,220,0">
+                    <TextBlock x:Name="PathSave" HorizontalAlignment="Left" Margin="15,0" TextWrapping="Wrap" Text="Dossier :" VerticalAlignment="Center"/>
+                    <TextBox x:Name="FolderName" HorizontalAlignment="Right" Margin="110,0,0,0" TextWrapping="Wrap" Text="YoudowSave" Width="160" FontSize="20" Padding="2" KeyDown="FolderName_KeyDown" KeyUp="FolderName_KeyUp" GotFocus="FolderName_GotFocus"/>
+                </Grid>
+            </Grid>
+        </StackPanel>
+        <!--
+        <ScrollViewer x:Name="TracksScroll" VerticalContentAlignment="Top" Margin="0,133,0,60">
+            <StackPanel VerticalAlignment="Top">
+                <Grid x:Name="TrackGrid" Height="80" Background="#FF141414" Margin="0,5,0,0" Tap="TrackGrid_Tap" Tag="{Binding id}">
+                    <Canvas x:Name="TrackImage" HorizontalAlignment="Left" Height="80" Margin="0" Width="80" VerticalAlignment="Top">
+                        <Canvas.Background>
+                            <ImageBrush Stretch="UniformToFill" ImageSource="/Assets/Logo.png" />
+                        </Canvas.Background>
+                    </Canvas>
+                    <StackPanel x:Name="TrackInfo" VerticalAlignment="Center" Margin="95,0,50,0">
+                        <TextBlock x:Name="TrackArtist" Text="Artiste inconnu" VerticalAlignment="Top" FontSize="18" FontWeight="Bold" Margin="0" UseLayoutRounding="True"/>
+                        <TextBlock x:Name="TackTitle" Text="Titre inconnu" Margin="0,5,0,0" FontSize="16" FontStyle="Italic"/>
+                    </StackPanel>
+                    <ProgressBar x:Name="TrackProgressBar" Margin="80,0,0,0" VerticalAlignment="Bottom" Padding="0" UseLayoutRounding="False" Value="50" Canvas.ZIndex="10" Background="#FF5D5D5D" Foreground="#FFFF8000"/>
+                </Grid>
+            </StackPanel>
+        </ScrollViewer>
+-->
+        <ScrollViewer x:Name="TracksScroll" VerticalContentAlignment="Top" Margin="0,133,0,60">
+            <StackPanel VerticalAlignment="Top">
+                <ItemsControl x:Name="AffTrack" Margin="0,0,0,0" VerticalAlignment="Top" ItemsSource="{Binding trackResult}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid x:Name="TrackGrid" Height="80" Background="{Binding bg}" Margin="0,5,0,0" Tap="TrackGrid_Tap" Tag="{Binding id}">
+                                <Canvas x:Name="TrackImage" HorizontalAlignment="Left" Height="80" Margin="0" Width="80" VerticalAlignment="Top">
+                                    <Canvas.Background>
+                                        <ImageBrush Stretch="UniformToFill" ImageSource="{Binding image}" />
+                                    </Canvas.Background>
+                                </Canvas>
+                                <StackPanel x:Name="TrackInfo" VerticalAlignment="Center" Margin="95,0,50,0">
+                                    <TextBlock x:Name="TackTitle" Text="{Binding title}" VerticalAlignment="Top" FontSize="18" FontWeight="Bold" Margin="0" UseLayoutRounding="True"/>
+                                    <TextBlock x:Name="TrackArtist" Text="{Binding artist}" Margin="0,5,0,0" FontSize="16" FontStyle="Italic"/>
+                                </StackPanel>
+                                <ProgressBar x:Name="TrackProgressBar" Margin="80,0,0,5" VerticalAlignment="Bottom" Padding="15,0" UseLayoutRounding="False" Value="{Binding progressValue}" Canvas.ZIndex="10" Background="#FF5D5D5D" Foreground="#FFFF8000"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </ScrollViewer>
+
+        <Grid x:Name="DownloadGrid" Height="90" Margin="0" VerticalAlignment="Bottom">
+            <Rectangle Fill="#FF141414" Margin="0,35,0,0" Stroke="Black" StrokeThickness="0"/>
+            <Grid x:Name="DownloadButton"  Height="70" Margin="60,0" VerticalAlignment="Top" Background="#FF404040" Tap="DownloadButton_Tap" MouseEnter="DownloadButton_MouseEnter" MouseLeave="DownloadButton_MouseLeave">
+                <Border BorderBrush="#FF141414" BorderThickness="2,2,2,0" Margin="-2" CornerRadius="5"/>
+                <TextBlock x:Name="Download" HorizontalAlignment="Center" Margin="0,15,0,0" TextWrapping="Wrap" Text="Télécharger" VerticalAlignment="Top" FontSize="18" FontWeight="Bold"/>
+                <TextBlock x:Name="NbTitle" HorizontalAlignment="Center" Margin="0,0,0,15" TextWrapping="Wrap" Text="0 titre" VerticalAlignment="Bottom" FontSize="14" FontStyle="Italic"/>
+            </Grid>
+        </Grid>
+    </Grid>
+
+</phone:PhoneApplicationPage>
